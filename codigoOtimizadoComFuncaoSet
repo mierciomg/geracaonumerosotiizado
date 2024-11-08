@@ -1,16 +1,52 @@
-//Esta implementação é geralmente mais eficiente, especialmente para grandes conjuntos de números,
-//porque evita a verificação explícita de duplicatas no array (como era feito com includes),
-//Graças a função Set
-function gerarNumerosAleatorios(num) {
-    console.time("TempoGasto"); // Inicia a contagem do tempo
+//CODIGOS COM A COMPARAÇÃO DE EFICIÊNCIA
+function gerarAleatorios1(num) {
+    console.time("TempoGasto (Algoritmo 1)"); // Inicia a contagem do tempo
+    var vetor = [];
+
+    while (vetor.length < num) {
+        var aleatorio = Math.floor(Math.random() * 60 + 1);
+        if (vetor.includes(aleatorio)) {
+            continue;
+        }
+        vetor.push(aleatorio);
+    }
+    console.timeEnd("TempoGasto (Algoritmo 1)"); // Finaliza a contagem do tempo
+    return vetor;
+}
+
+
+function gerarAleatorios2(num) {
+    console.time("TempoGasto (Algoritmo 2)"); // Inicia a contagem do tempo
     const numeros = new Set();
     while (numeros.size < num) {
         const numero = Math.floor(Math.random() * 60) + 1;
         numeros.add(numero);
     }
-    console.timeEnd("TempoGasto"); // Finaliza a contagem e exibe o tempo
+    console.timeEnd("TempoGasto (Algoritmo 2)"); // Finaliza a contagem do tempo
     return Array.from(numeros);
 }
 
-const numerosAleatorios = gerarNumerosAleatorios(30);
-console.log("Números gerados:", numerosAleatorios);
+function compararAlgoritmos(num) {
+    // Medindo o tempo para o primeiro algoritmo
+    const inicio1 = performance.now();
+    gerarAleatorios1(num);
+    const fim1 = performance.now();
+    const tempo1 = fim1 - inicio1;
+
+    // Medindo o tempo para o segundo algoritmo
+    const inicio2 = performance.now();
+    gerarAleatorios2(num);
+    const fim2 = performance.now();
+    const tempo2 = fim2 - inicio2;
+
+    // Calculando a diferença percentual
+    const diferencaPercentual = ((tempo1 - tempo2) / tempo1) * 100;
+
+    console.log(`Tempo do Algoritmo 1: ${tempo1.toFixed(2)} ms`);
+    console.log(`Tempo do Algoritmo 2: ${tempo2.toFixed(2)} ms`);
+    console.log(`O Algoritmo 2 é aproximadamente ${diferencaPercentual.toFixed(2)}% mais rápido que o Algoritmo 1`);
+}
+
+// Chamando a função de comparação com um exemplo de 40 números
+
+compararAlgoritmos(40);
