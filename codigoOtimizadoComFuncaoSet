@@ -1,0 +1,16 @@
+//Esta implementação é geralmente mais eficiente, especialmente para grandes conjuntos de números,
+//porque evita a verificação explícita de duplicatas no array (como era feito com includes),
+//Graças a função Set
+function gerarNumerosAleatorios(num) {
+    console.time("TempoGasto"); // Inicia a contagem do tempo
+    const numeros = new Set();
+    while (numeros.size < num) {
+        const numero = Math.floor(Math.random() * 60) + 1;
+        numeros.add(numero);
+    }
+    console.timeEnd("TempoGasto"); // Finaliza a contagem e exibe o tempo
+    return Array.from(numeros);
+}
+
+const numerosAleatorios = gerarNumerosAleatorios(30);
+console.log("Números gerados:", numerosAleatorios);
